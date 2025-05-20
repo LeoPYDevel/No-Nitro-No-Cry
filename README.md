@@ -1,6 +1,5 @@
----
-
 # 💬 Discord Emoji Unlocker – **Patched & Improved Fork**
+-# (Used AI for the description, because i talk Spanish and dont english LOL)
 
 > ⚠️ This project is **not originally mine**. It’s a **patched continuation** with performance tweaks and some **new features** added on top of the original idea.
 
