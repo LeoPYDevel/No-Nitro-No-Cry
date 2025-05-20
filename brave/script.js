@@ -56,6 +56,7 @@ $(document).ready(function () {
 			}
 
 			copyTextToClipboard(finalURL);
+			showCopiedNotice();
 		});
 
             }
@@ -68,12 +69,29 @@ $(document).ready(function () {
                     let ufsource = e.currentTarget.getAttribute('src');
                     const url = ufsource.split("?size=");
                     source = url[0] + "?size=128"
-                    copyTextToClipboard(source)
+                    copyTextToClipboard(source);
+                    showCopiedNotice();
+
                 });
             }
         });
     }, 1000);
 });
+
+function showCopiedNotice() {
+	const el = document.getElementById("emojiCopiedNotice");
+	if (!el) return;
+	el.style.display = "block";
+	requestAnimationFrame(() => {
+		el.style.opacity = "1";
+	});
+	setTimeout(() => {
+		el.style.opacity = "0";
+		setTimeout(() => {
+			el.style.display = "none";
+		}, 300);
+	}, 1500); // Desaparece después de 1.5 segundos
+}
 
 
 async function copyTextToClipboard(textToCopy) {
@@ -95,3 +113,26 @@ async function urlExists(url) {
 		return false;
 	}
 }
+
+// Inyectar el cartel flotante en el DOM
+const copyNotice = document.createElement("div");
+copyNotice.id = "emojiCopiedNotice";
+copyNotice.style.cssText = `
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background: rgba(60, 60, 60, 0.95);
+	color: white;
+	padding: 12px 17px;
+	border-radius: 8px;
+	font-size: 22px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	z-index: 9999;
+	display: none;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	pointer-events: none;
+`;
+copyNotice.textContent = "✅ Emoji Copied to clipboard!";
+document.body.appendChild(copyNotice);
+
