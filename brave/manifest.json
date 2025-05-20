@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Not Quite Nitro",
+  "name": "Not Quite Nitro (Unofficial)",
   "description": "An extension that allows you to use discord emojis in any chat and any server, animated and static emojis without nitro, always free.",
-  "version": "1.1",
+  "version": "1.2",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
