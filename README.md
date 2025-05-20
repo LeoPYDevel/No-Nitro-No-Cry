@@ -92,9 +92,10 @@ No, and you can verify this, opening the code. Is open source and you can modify
 
 ---
 
-## 🧰 TODO
+## 🧰 TO DO
 
 * [ ] Add a UI panel to configure extension settings directly.
+* [ ] Improve the perfomance and make the extension better.
 * [ ] Confirm Firefox compatibility.
 
 ---
