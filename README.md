@@ -1,5 +1,7 @@
 # 💬 Discord Emoji Unlocker – **Patched & Improved Fork**
--# (Used AI for the description, because i talk Spanish and dont english LOL)
+(Used AI for the description, because i talk Spanish and dont english LOL)
+Madded by: FirulaisGaming, "https://youtube.com/@FirulaisGamingOficial" in YouYube
+Leonardo netto, FirulaisGaming
 
 > ⚠️ This project is **not originally mine**. It’s a **patched continuation** with performance tweaks and some **new features** added on top of the original idea.
 
