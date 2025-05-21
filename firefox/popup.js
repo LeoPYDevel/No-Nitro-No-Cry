@@ -1,24 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var BiggerEmoji = false; // Make emoji look big like stickers
-    var UsePng = false;      // Use png instead of webp for high quality
+	let BiggerEmoji = false; // Mostrar emojis grandes como stickers
+	let UsePng = false;      // Usar PNG en lugar de WEBP
 
-    let emojiCheckbox = document.getElementById('bigemoji');
-    let pngCheckbox = document.getElementById('usepng');
+	const emojiCheckbox = document.getElementById('bigemoji');
+	const pngCheckbox = document.getElementById('usepng');
 
-    browser.storage.local.get({ BiggerEmoji: false, UsePng: false }).then((result) => {
-            BiggerEmoji = result.BiggerEmoji
-            emojiCheckbox.checked = BiggerEmoji
-            UsePng = result.UsePng
-            pngCheckbox.checked = UsePng
-        
-    });
+	// Cargar las configuraciones guardadas
+	chrome.storage.local.get(["BiggerEmoji", "UsePng"], function (result) {
+		BiggerEmoji = result.BiggerEmoji ?? false;
+		UsePng = result.UsePng ?? false;
 
-    emojiCheckbox.addEventListener('click', function () {
-        BiggerEmoji = emojiCheckbox.checked;
-        browser.storage.local.set({ BiggerEmoji })
-    });
-    pngCheckbox.addEventListener('click', function () {
-        UsePng = pngCheckbox.checked;
-        browser.storage.local.set({ UsePng })
-    });
+		emojiCheckbox.checked = BiggerEmoji;
+		pngCheckbox.checked = UsePng;
+	});
+
+	// Guardar cambios cuando se hace clic
+	emojiCheckbox.addEventListener('change', function () {
+		BiggerEmoji = emojiCheckbox.checked;
+		chrome.storage.local.set({ BiggerEmoji: BiggerEmoji });
+	});
+
+	pngCheckbox.addEventListener('change', function () {
+		UsePng = pngCheckbox.checked;
+		chrome.storage.local.set({ UsePng: UsePng });
+	});
 });
+

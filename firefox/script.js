@@ -56,6 +56,8 @@ $(document).ready(function () {
 			}
 
 			copyTextToClipboard(finalURL);
+			showCopiedNotice(finalURL);
+			focus();
 		});
 
             }
@@ -68,13 +70,45 @@ $(document).ready(function () {
                     let ufsource = e.currentTarget.getAttribute('src');
                     const url = ufsource.split("?size=");
                     source = url[0] + "?size=128"
-                    copyTextToClipboard(source)
+                    copyTextToClipboard(source);
+                    showCopiedNotice(source);
+                    focus();
                 });
             }
         });
     }, 1000);
 });
 
+function showCopiedNotice(copiedURL) {
+	const el = document.getElementById("emojiCopiedNotice");
+	if (!el) return;
+
+	el.innerHTML = `
+		<div style="display: flex; align-items: center; gap: 10px;">
+			<img src="${copiedURL}" style="width: 32px; height: 32px;" />
+			<span> Emoji copied to clipboard!</span>
+		</div>
+		<h4 style="font-size: 10px; margin-top: 5px;">Not Quite Nitro (Unofficial)</h4>
+	`;
+
+	el.style.display = "block";
+	requestAnimationFrame(() => {
+		el.style.opacity = "1";
+	});
+	setTimeout(() => {
+		el.style.opacity = "0";
+		setTimeout(() => {
+			el.style.display = "none";
+		}, 300);
+	}, 3500);
+}
+
+
+
+function focus() {
+	const inputs = document.querySelectorAll("div[contenteditable='true']");
+	if (inputs.length >= 2) inputs[1].focus();
+}
 
 async function copyTextToClipboard(textToCopy) {
     try {
@@ -95,3 +129,28 @@ async function urlExists(url) {
 		return false;
 	}
 }
+
+// Inyectar el cartel flotante en el DOM
+const copyNotice = document.createElement("div");
+copyNotice.id = "emojiCopiedNotice";
+copyNotice.style.cssText = `
+	position: fixed;
+	top: 25px;
+	right: 25px;
+	background: rgba(60, 60, 60, 0.95);
+	color: white;
+	padding: 12px 17px;
+	border-radius: 8px;
+	font-size: 14px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+	z-index: 9999;
+	display: none;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	pointer-events: none;
+`;
+copyNotice.textContent = "Emoji Copied to clipboard!";
+document.body.appendChild(copyNotice);
+
+
+
