@@ -14,11 +14,14 @@ This extension allows you to **use and copy Discord emojis/stickers** without Ni
 ### ✅ Features:
 
 * Click any emoji or sticker to copy its **direct URL**.
-* Detects animated emojis and, if available, **copies the `.gif` version** automatically.
+* Automatically detects animated emojis and copies the `.gif` version if available.
 * Optional PNG mode for higher quality (`.png` instead of `.webp`).
-* Optional bigger emojis (to look like stickers).
-* Removes Nitro popups and UI annoyances.
-* Requires **no Discord token**, and **doesn’t connect to the internet** (besides fetching emoji images).
+* Optional larger emoji size (makes them look like stickers).
+* Removes Nitro popups and other annoying UI clutter.
+* Requires **no Discord token** and **doesn’t connect to the internet** (except to fetch emoji images).
+* Fully customizable UI to personalize the extension experience.
+* Allows copying **emojis from other users**, even if you don’t have access to them.
+* **Fully unlocked emoji and sticker panel**, with no Discord limitations.
 
 ---
 
