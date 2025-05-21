@@ -26,10 +26,11 @@ This extension allows you to **use and copy Discord emojis/stickers** without Ni
 
 * 🔄 **Added .gif fallback support** for animated emojis.
 * ⚡ **Performance improvements** (avoid duplicated event listeners).
+* 🛠️ Added a GUI and make it better
 * 🧼 Minor code cleanup.
-* 🛠️ Configurable settings using `chrome.storage.local`:
-
-  * `BiggerEmoji` – make emojis appear large.
+* 🛠️ Configurable settings clicking in the extension!
+* 
+  * `BiggerEmoji` – make emojis appear large like a Sticker.
   * `UsePng` – force PNG output for better image quality.
 
 ---
@@ -38,9 +39,7 @@ This extension allows you to **use and copy Discord emojis/stickers** without Ni
 
 ### Firefox:
 
-> ⚠️ **Not tested yet on Firefox**, only tested on **Brave**.
-
-* Get the official version from Firefox Addons *(if available)*
+> ⚠️ **Not tested yet on Firefox**, only tested on **Brave**, **Google Chrome**.
 
 ### Chrome / Edge / Brave / Opera:
 
@@ -82,23 +81,14 @@ This extension allows you to **use and copy Discord emojis/stickers** without Ni
 🤷 Probably not. The extension doesn’t send any requests or interfere with Discord servers, so there’s no way for Discord to know you’re using it.
 
 **It have virus?**
-No, and you can verify this, opening the code. Is open source and you can modify it if you want.
+No, and you can verify this, opening the code. Is open source and you can modify if you want.
 
 ---
 
 ## 📢 Important Notes
 
-* This is still **under development**, so expect some bugs or edge cases.
-* Currently **tested only in Brave**. Firefox is **not yet confirmed** to work.
+* Currently **tested only in Brave, Chrome**. Firefox is **not yet confirmed** to work.
 * Once downloaded, **rename the internal `brave` folder** to your preferred extension folder name.
-
----
-
-## 🧰 TO DO
-
-* [ ] Add a UI panel to configure extension settings directly.
-* [ ] Improve the perfomance and make the extension better.
-* [ ] Confirm Firefox compatibility.
 
 ---
 
@@ -110,6 +100,7 @@ Open an Issue I'll reply and fix things as soon as I can 😊
 
 
 This original code NOT is mine, i use the code of: https://github.com/SuhasDissa/NotQuiteNitro
-But i make it a litle bit better.
+But i make it a better.
 
+Copyright (c) 2025 LeoPYDevel, FirulaisGaming
 Copyright (c) 2021 Suhas Dissanayake
