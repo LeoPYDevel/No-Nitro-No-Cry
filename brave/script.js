@@ -1,19 +1,39 @@
+const style = document.createElement("style");
+style.innerHTML = `
+.categorySectionNitroLocked_c656ac {
+    background-color: transparent !important;
+}
+
+.nitroTopDividerContainer_b3fb5f,
+.categoryItemLockIconContainer__0fa6d {
+	display: none;
+}
+
+`;
+
+setInterval(() => {
+	const upsell = document.querySelector(".upsellContainer__0b69f");
+	if (upsell) upsell.remove();
+}, 500);
+
+/*============ Settings ===========*/
+
+var BiggerEmoji = false; // Make emoji look big like stickers
+var UsePng = false;      // Use png instead of webp for high quality
+
+chrome.storage.local.get({ BiggerEmoji: false, UsePng: false }).then((result) => {
+    if (result.BiggerEmoji === true || result.BiggerEmoji === false) {
+        BiggerEmoji = result.BiggerEmoji
+    }
+    if (result.UsePng === true || result.UsePng === false) {
+        UsePng = result.UsePng
+    }
+});
+
 $(document).ready(function () {
-    /*============ Settings ===========*/
-
-    var BiggerEmoji = false; // Make emoji look big like stickers
-    var UsePng = true;      // Use png instead of webp for high quality
-
-    chrome.storage.local.get({ BiggerEmoji: false, UsePng: false }).then((result) => {
-        if (result.BiggerEmoji === true || result.BiggerEmoji === false) {
-            BiggerEmoji = result.BiggerEmoji
-        }
-        if (result.UsePng === true || result.UsePng === false) {
-            UsePng = result.UsePng
-        }
-    });
-
     /* =============================== */
+    
+    document.head.appendChild(style);
 
     setInterval(function () {
         // make emotes coloured and clickable
@@ -79,6 +99,39 @@ $(document).ready(function () {
     }, 1000);
 });
 
+// COPY A EMOJI CODE, USE FOR TAKE EMOJIS
+document.addEventListener("click", async function(e) {
+	const target = e.target;
+
+	// Si es un emoji
+	if (target.tagName === "IMG" && target.classList.contains("emoji")) {
+
+		// Si es custom
+		if (!target.hasAttribute("data-name")) {
+			let urlExtract = target.src.split("?")[0]; // base sin ?size
+			let finalURL;
+			
+			if (BiggerEmoji) {
+				finalURL = urlExtract + "?size=48c";
+			} else {
+				finalURL = urlExtract + "?size=48";
+			}
+
+			const gifURL = finalURL.replace(".webp", ".gif");
+			const exists = await urlExists(gifURL);
+
+			if (exists) {
+				finalURL = gifURL;
+			}
+
+			copyTextToClipboard(finalURL);
+			showCopiedNotice(finalURL);
+			focus();
+		}
+	}
+});
+
+
 function showCopiedNotice(copiedURL) {
 	const el = document.getElementById("emojiCopiedNotice");
 	if (!el) return;
@@ -88,7 +141,7 @@ function showCopiedNotice(copiedURL) {
 			<img src="${copiedURL}" style="width: 32px; height: 32px;" />
 			<span> Emoji copied to clipboard!</span>
 		</div>
-		<h4 style="font-size: 10px; margin-top: 5px;">Not Quite Nitro (Unofficial)</h4>
+		<h4 style="font-size: 10px; margin-top: 5px;">No nitro, no cry!</h4>
 	`;
 
 	el.style.display = "block";
@@ -102,8 +155,6 @@ function showCopiedNotice(copiedURL) {
 		}, 300);
 	}, 3500);
 }
-
-
 
 function focus() {
 	const inputs = document.querySelectorAll("div[contenteditable='true']");
