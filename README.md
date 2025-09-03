@@ -1,6 +1,6 @@
 # 💬 Discord Emoji Unlocker – **Patched & Improved Fork**
 (Used AI for the description, because i talk Spanish and dont english LOL)
-Madded by: FirulaisGaming, "https://youtube.com/@FirulaisGamingOficial" in YouYube
+Madded by: FirulaisGaming, "https://youtube.com/@firulais.gaming" in YouYube
 Leonardo netto, FirulaisGaming
 
 > ⚠️ This project is **not originally mine**. It’s a **patched continuation** with performance tweaks and some **new features** added on top of the original idea.
@@ -8,7 +8,7 @@ Leonardo netto, FirulaisGaming
 ---
 
 ## (CHANGELOG)
-* 1.5.2 - Fixed another explorer crash, improved performance, added new features, removed annoying Discord banners, moved Favourites emojis slightly down, added glow and hover glow, and removed gray effects from stickers you can’t use.
+* 1.5.2 - Fixed another explorer crash, improved performance, added new features, removed annoying Discord banners, moved Favourites emojis slightly down, added glow and hover glow, emojis no longer appear visually blocked, stickers are working again, and removed gray effects from unusable stickers.
 * 1.5.1 - Fixed a Crash with the explorer, specially with brave
 * 1.5 - Added Favourites Panel
 * 1.4 - Fixed too many bugs and added the future feature of "BYPASS ANTI LINKS"
