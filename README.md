@@ -8,6 +8,7 @@ Leonardo netto, FirulaisGaming
 ---
 
 ## (CHANGELOG)
+* 1.6 - Added finally the AntiLink bypasser, using a image!!! Added a copy-stickers of another users.
 * 1.5.2 - Fixed another explorer crash, improved performance, added new features, removed annoying Discord banners, moved Favourites emojis slightly down, added glow and hover glow, emojis no longer appear visually blocked, stickers are working again, and removed gray effects from unusable stickers.
 * 1.5.1 - Fixed a Crash with the explorer, specially with brave
 * 1.5 - Added Favourites Panel
