@@ -11,7 +11,7 @@ style.innerHTML = `
 /* Panel de emojis guardados */
 #emojiPanelWrapper {
 	position: fixed;
-	top: 10px;
+	top: 90px;
 	left: 50%;
 	transform: translateX(-50%);
 	background: rgba(40,40,40,0.95);
@@ -23,7 +23,7 @@ style.innerHTML = `
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	max-width: 90%;
+	max-width: 80%;
 }
 
 #toggleEmojiPanel {
@@ -44,7 +44,7 @@ style.innerHTML = `
 	max-height: 120px;
 	overflow-x: auto;
 	overflow-y: hidden;
-	padding: 5px;
+	padding: 10px;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -55,15 +55,15 @@ style.innerHTML = `
 }
 
 .emojiItem {
-	width: 32px;
-	height: 32px;
-	border-radius: 5px;
+	width: 42px;
+	height: 42px;
+	border-radius: 2px;
 	cursor: pointer;
 	transition: transform 0.2s ease;
 }
 
 .emojiItem:hover {
-	transform: scale(1.2);
+	transform: scale(1.1);
 }
 
 .deleteEmojiBtn {
@@ -84,6 +84,40 @@ style.innerHTML = `
 .emojiItemWrapper:hover .deleteEmojiBtn {
 	display: block;
 }
+.scrim_d9cec8,
+.container_d829e7,
+.hasTabParentContainer_d829e7,
+.emojiLockIconContainer_d982c2,
+.upsellButton__0b69f,
+upsellContainer__0b69f > svg[xmlns="http://www.w3.org/2000/svg"] {
+	display: none !important;
+}
+.stickerUnsendable_c6367b {
+	transition: 0.3s all;
+	filter: grayscale(0%) !important;
+	box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+}
+.stickerUnsendable_c6367b:hover {
+	transition: 0.3s all;
+	filter: grayscale(0%) !important;
+	box-shadow: 0 0 20px rgba(118, 157, 209, 1);
+	transform: scale(1.15);
+}
+li[role="gridcell"] .lockedEmoji_d982c2 {
+	width: 32px;
+	height: 32px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+}
+li[role="gridcell"] .lockedEmoji_d982c2:hover {
+	transform: scale(1.15);
+	box-shadow: 0 0 20px rgba(118, 157, 209, 1);
+}
+.upsellContainerShadow__0b69f {
+	filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.5));
+}
 `;
 document.head.appendChild(style);
 
@@ -91,6 +125,19 @@ document.head.appendChild(style);
 var BiggerEmoji = false;
 var UsePng = false;
 var savedEmojis = [];
+
+// ======================= Cambiar panel de nitro =============
+setInterval(() => {
+	const banner = document.querySelector(".text-sm\\/medium_cf4812.upsellText__0b69f");
+	if (banner) {
+		banner.innerHTML = `
+			Gracias a <a href="https://github.com/LeoPYDevel/No-Nitro-No-Cry" target="_blank" style="color: #7289da; text-decoration: underline;">No Nitro, No cry</a>, 
+			tienes acceso a todos estos emojis. Considera compartir la extensión. Hecho por 
+			<a href="http://youtube.com/@firulais.gaming" target="_blank" style="color: #7289da; text-decoration: underline;">FirulaisGaming</a>.
+		`;
+	}
+}, 500);
+
 
 // ======================= Panel de emojis =========================
 const panelWrapper = document.createElement("div");
@@ -181,7 +228,7 @@ function showCopiedNotice(copiedURL, rightClick = false) {
 	el.innerHTML = `
 		<div style="display: flex; align-items: center; gap: 10px;">
 			<img src="${copiedURL}" style="width: 32px; height: 32px;" />
-			<span>${rightClick ? "Emoji guardado!" : "Emoji copied to clipboard!"}</span>
+			<span>${rightClick ? "Emoji saved to favs!" : "Emoji copied to clipboard!"}</span>
 		</div>
 		<h4 style="font-size: 10px; margin-top: 5px;">No nitro, no cry!</h4>
 	`;
@@ -220,54 +267,67 @@ chrome.storage.local.get({ BiggerEmoji: false, UsePng: false }).then((result) =>
     UsePng = !!result.UsePng;
 });
 
-// ======================= Remover banners de Nitro =========================
-setInterval(() => {
-	const upsell = document.querySelector(".upsellContainer__0b69f");
-	if (upsell) upsell.remove();
-}, 500);
-
 // ======================= Inicializar emojis guardados =========================
 loadSavedEmojis();
 
-// ======================= Eventos para emojis =========================
+// ======================= Eventos para emojis y stickers =========================
 $(document).ready(function () {
 	setInterval(function () {
+		// Quitar filtros y elementos molestos
 		$("div[class*='listItems'] div[class*='categorySection'] ul li button")
 			.css('filter', ' grayscale(0)').children("img").css('pointer-events', 'all');
 
-		$("div[class*='listItems'] div[class*='row'] div[role*='gridcell'] div[class*='sticker'] div div[class*='stickerNode']")
-			.css('filter', ' grayscale(0)').children("div img").css('pointer-events', 'all');
+		$("div[class*='listItems'] div[class*='row'] div[role*='gridcell'] div[class*='sticker'] div div[class*='stickerNode'] img")
+			.css('pointer-events', 'all');
 
-		$("div[class*='emojiPicker'] div[class*='hasTabParentContainer']").remove();
-		$("div[class*='emojiPicker'] div[class*='backdrop'").remove();
+
 	}, 100);
 
 	setInterval(function () {
+		// Emojis normales
 		$("div[class*='listItems'] div[class*='categorySection'] ul li button img[class*='image']").each(function () {
 			if ($(this).attr("affected") != "true") {
 				$(this).attr("affected", "true");
 
-				$(this).click(async (e) => {
-					let ufsource = e.currentTarget.getAttribute('src');
-					const url = ufsource.split("?size=")[0];
-					let finalURL = BiggerEmoji ? url + "?size=48c" : url + "?size=48";
-					if (UsePng) finalURL = finalURL.replace(".webp", ".png");
-					copyTextToClipboard(finalURL);
-					showCopiedNotice(finalURL, false);
-					focus();
-				});
+				const elem = this;
 
-				$(this).on("contextmenu", async (e) => {
-					e.preventDefault();
-					let ufsource = e.currentTarget.getAttribute('src');
-					const url = ufsource.split("?size=")[0];
-					let finalURL = BiggerEmoji ? url + "?size=48c" : url + "?size=48";
+				const handleCopy = (rightClick = false) => {
+					let src = elem.getAttribute('src');
+					if (!src) return;
+					src = src.split("?size=")[0];
+					let finalURL = BiggerEmoji ? src + "?size=48c" : src + "?size=48";
 					if (UsePng) finalURL = finalURL.replace(".webp", ".png");
 					copyTextToClipboard(finalURL);
-					saveEmoji(finalURL);
-					showCopiedNotice(finalURL, true);
+					if (rightClick) saveEmoji(finalURL);
+					showCopiedNotice(finalURL, rightClick);
 					focus();
-				});
+				};
+
+				$(elem).click(() => handleCopy(false));
+				$(elem).on("contextmenu", (e) => { e.preventDefault(); handleCopy(true); });
+			}
+		});
+
+		// Stickers
+		$("img.stickerAsset__31fc2").each(function () {
+			if ($(this).attr("affected") != "true") {
+				$(this).attr("affected", "true");
+
+				const elem = this;
+
+				const handleCopy = (rightClick = false) => {
+					let src = elem.getAttribute('src');
+					if (!src) return;
+					src = src.split("?")[0]; // Ignorar query
+					let finalURL = src + "?size=128"; // Sticker siempre 128
+					copyTextToClipboard(finalURL);
+					if (rightClick) saveEmoji(finalURL);
+					showCopiedNotice(finalURL, rightClick);
+					focus();
+				};
+
+				$(elem).click(() => handleCopy(false));
+				$(elem).on("contextmenu", (e) => { e.preventDefault(); handleCopy(true); });
 			}
 		});
 	}, 1000);
