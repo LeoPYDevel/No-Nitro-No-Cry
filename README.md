@@ -7,14 +7,15 @@ Leonardo netto, FirulaisGaming
 
 ---
 
-(CHANGELOG)
-1.5.1 - Fixed a Crash with the explorer, specially with brave
-1.5 - Added Favourites Panel
-1.4 - Fixed too many bugs and added the future feature of "BYPASS ANTI LINKS"
-1.3 - Added compatibility with GIF's
-1.2 - Added compatibility with Stickers
-1.1 - Fixed bugs
-1.0 - Added BIG EMOJIS, PNG EMOJIS
+## (CHANGELOG)
+* 1.5.2 - Fixed another explorer crash, improved performance, added new features, removed annoying Discord banners, moved Favourites emojis slightly down, added glow and hover glow, and removed gray effects from stickers you can’t use.
+* 1.5.1 - Fixed a Crash with the explorer, specially with brave
+* 1.5 - Added Favourites Panel
+* 1.4 - Fixed too many bugs and added the future feature of "BYPASS ANTI LINKS"
+* 1.3 - Added compatibility with Animated Emoji's
+* 1.2 - Added compatibility with Stickers
+* 1.1 - Fixed bugs
+* 1.0 - Added BIG EMOJIS, PNG EMOJIS
 
 ## 🚀 What does it do?
 
