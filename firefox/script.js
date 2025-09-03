@@ -89,7 +89,8 @@ style.innerHTML = `
 .hasTabParentContainer_d829e7,
 .emojiLockIconContainer_d982c2,
 .upsellButton__0b69f,
-upsellContainer__0b69f > svg[xmlns="http://www.w3.org/2000/svg"] {
+upsellContainer__0b69f > svg[xmlns="http://www.w3.org/2000/svg"],
+.wrapper__8ef02 > .upsellWrapper__8fe94 {
 	display: none !important;
 }
 .stickerUnsendable_c6367b {
@@ -118,12 +119,20 @@ li[role="gridcell"] .lockedEmoji_d982c2:hover {
 .upsellContainerShadow__0b69f {
 	filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.5));
 }
+
+.carouselModal_d3a6f0 {
+    backdrop-filter: blur(10px); /* más blur */
+    -webkit-backdrop-filter: blur(10px); /* soporte Safari */
+    background-color: rgba(0,0,0,0.3); /* oscuridad leve */
+}
+
 `;
 document.head.appendChild(style);
 
 // ======================= Variables =========================
 var BiggerEmoji = false;
 var UsePng = false;
+var BypassAntilink = false;
 var savedEmojis = [];
 
 // ======================= Cambiar panel de nitro =============
@@ -262,15 +271,18 @@ copyNotice.style.cssText = `
 document.body.appendChild(copyNotice);
 
 // ======================= Guardar configuración =========================
-chrome.storage.local.get({ BiggerEmoji: false, UsePng: false }).then((result) => {
-    BiggerEmoji = !!result.BiggerEmoji;
-    UsePng = !!result.UsePng;
+chrome.storage.onChanged.addListener(function(changes, area) {
+    if(area === "local") {
+        if(changes.BypassAntilink) BypassAntilink = changes.BypassAntilink.newValue;
+        if(changes.BiggerEmoji) BiggerEmoji = changes.BiggerEmoji.newValue;
+        if(changes.UsePng) UsePng = changes.UsePng.newValue;
+    }
 });
+
 
 // ======================= Inicializar emojis guardados =========================
 loadSavedEmojis();
 
-// ======================= Eventos para emojis y stickers =========================
 $(document).ready(function () {
 	setInterval(function () {
 		// Quitar filtros y elementos molestos
@@ -279,8 +291,6 @@ $(document).ready(function () {
 
 		$("div[class*='listItems'] div[class*='row'] div[role*='gridcell'] div[class*='sticker'] div div[class*='stickerNode'] img")
 			.css('pointer-events', 'all');
-
-
 	}, 100);
 
 	setInterval(function () {
@@ -289,17 +299,40 @@ $(document).ready(function () {
 			if ($(this).attr("affected") != "true") {
 				$(this).attr("affected", "true");
 
-				const elem = this;
+				const elem = this; // nodo DOM real
 
-				const handleCopy = (rightClick = false) => {
-					let src = elem.getAttribute('src');
-					if (!src) return;
-					src = src.split("?size=")[0];
-					let finalURL = BiggerEmoji ? src + "?size=48c" : src + "?size=48";
-					if (UsePng) finalURL = finalURL.replace(".webp", ".png");
-					copyTextToClipboard(finalURL);
+				const handleCopy = async (rightClick = false) => {
+					let src = elem.src.split("?")[0]; // URL limpia
+					let finalURL = src;
+
+					console.log(BypassAntilink)
+
+					if (BypassAntilink) {
+						try {
+							const img = new Image();
+							img.crossOrigin = "anonymous";
+							img.src = finalURL;
+							img.onload = async () => {
+								const blob = await new Promise(r => {
+									const c = document.createElement("canvas");
+									c.width = img.width;
+									c.height = img.height;
+									c.getContext("2d").drawImage(img, 0, 0);
+									c.toBlob(r, "image/png");
+								});
+								await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+								showCopiedNotice(finalURL, rightClick);
+							};
+						} catch (err) { console.error(err); }
+					} else {
+						if (BiggerEmoji) finalURL += "?size=48c";
+						else finalURL += "?size=48";
+						if (UsePng) finalURL = finalURL.replace(".webp", ".png");
+						copyTextToClipboard(finalURL);
+						showCopiedNotice(finalURL, rightClick);
+					}
+
 					if (rightClick) saveEmoji(finalURL);
-					showCopiedNotice(finalURL, rightClick);
 					focus();
 				};
 
@@ -315,14 +348,33 @@ $(document).ready(function () {
 
 				const elem = this;
 
-				const handleCopy = (rightClick = false) => {
-					let src = elem.getAttribute('src');
-					if (!src) return;
-					src = src.split("?")[0]; // Ignorar query
-					let finalURL = src + "?size=128"; // Sticker siempre 128
-					copyTextToClipboard(finalURL);
+				const handleCopy = async (rightClick = false) => {
+					let src = elem.src.split("?")[0];
+					let finalURL = src + "?size=128";
+					
+					if (BypassAntilink) {
+						try {
+							const img = new Image();
+							img.crossOrigin = "anonymous";
+							img.src = finalURL;
+							img.onload = async () => {
+								const blob = await new Promise(r => {
+									const c = document.createElement("canvas");
+									c.width = img.width;
+									c.height = img.height;
+									c.getContext("2d").drawImage(img, 0, 0);
+									c.toBlob(r, "image/png");
+								});
+								await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+								showCopiedNotice(finalURL, rightClick);
+							};
+						} catch (err) { console.error(err); }
+					} else {
+						copyTextToClipboard(finalURL);
+						showCopiedNotice(finalURL, rightClick);
+					}
+
 					if (rightClick) saveEmoji(finalURL);
-					showCopiedNotice(finalURL, rightClick);
 					focus();
 				};
 
