@@ -8,6 +8,7 @@ Leonardo netto, FirulaisGaming
 ---
 
 ## (CHANGELOG)
+* 1.7 - Added a special highlight for animated emojis, and added support for animated emojis (there was a bug that prevented copying the .gif, but it’s fixed now). The menu option to enable the animated emoji preview was also added (allows you to see animated emojis in the panel) so they look better and are easier to identify. Additionally, disabling this option can improve performance.
 * 1.6 - Added finally the AntiLink bypasser, using a image!!! Added a copy-stickers of another users.
 * 1.5.2 - Fixed another explorer crash, improved performance, added new features, removed annoying Discord banners, moved Favourites emojis slightly down, added glow and hover glow, emojis no longer appear visually blocked, stickers are working again, and removed gray effects from unusable stickers.
 * 1.5.1 - Fixed a Crash with the explorer, specially with brave
