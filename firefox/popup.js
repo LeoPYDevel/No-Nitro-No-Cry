@@ -1,21 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
 	let BiggerEmoji = false; 
 	let UsePng = false;
-	let BypassAntilink = false; // NUEVO
+	let BypassAntilink = false;
+	let animatedPreview = true;
 
 	const emojiCheckbox = document.getElementById('bigemoji');
 	const pngCheckbox = document.getElementById('usepng');
 	const bypassCheckbox = document.getElementById('bypasslink');
+	const animatedPreviewCheckBox = document.getElementById('animatedPreview');
 
 	// Cargar configuraciones
-	chrome.storage.local.get(["BiggerEmoji", "UsePng", "BypassAntilink"], function (result) {
+	chrome.storage.local.get(["BiggerEmoji", "UsePng", "BypassAntilink", "animatedPreview"], function (result) {
 		BiggerEmoji = result.BiggerEmoji ?? false;
 		UsePng = result.UsePng ?? false;
 		BypassAntilink = result.BypassAntilink ?? false;
+		animatedPreview = result.animatedPreview ?? false;
 
 		emojiCheckbox.checked = BiggerEmoji;
 		pngCheckbox.checked = UsePng;
 		bypassCheckbox.checked = BypassAntilink;
+		animatedPreviewCheckBox.checked = animatedPreview;
 	});
 
 	// Guardar cambios
@@ -34,6 +38,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		chrome.storage.local.set({ BypassAntilink });
 	});
 
+	animatedPreviewCheckBox.addEventListener('change', function () {
+		animatedPreview = animatedPreviewCheckBox.checked;
+		chrome.storage.local.set({ animatedPreview });
+	});
+
 	// Exponer opciones globalmente para el content script
-	window.ExtensionSettings = { BiggerEmoji, UsePng, BypassAntilink };
+	window.ExtensionSettings = { BiggerEmoji, UsePng, BypassAntilink, animatedPreview };
 });

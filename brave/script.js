@@ -19,7 +19,8 @@ style.innerHTML = `
 	border-radius: 8px;
 	box-shadow: 0 2px 10px rgba(0,0,0,0.4);
 	z-index: 99999;
-	padding: 5px 10px;
+	padding: 5px 5px;
+	padding-top: 3px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -31,8 +32,8 @@ style.innerHTML = `
 	color: white;
 	border: none;
 	border-radius: 5px;
-	padding: 5px 10px;
-	margin-bottom: 5px;
+	padding: 10px 10px;
+	margin-bottom: 7px;
 	cursor: pointer;
 	font-weight: bold;
 }
@@ -43,8 +44,7 @@ style.innerHTML = `
 	gap: 5px;
 	max-height: 120px;
 	overflow-x: auto;
-	overflow-y: hidden;
-	padding: 10px;
+	padding: 3px;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -126,13 +126,34 @@ li[role="gridcell"] .lockedEmoji_d982c2:hover {
     background-color: rgba(0,0,0,0.3); /* oscuridad leve */
 }
 
+li[role="gridcell"] button[data-animated="true"] .lockedEmoji_d982c2 {
+	box-shadow: 0 0 8px rgba(255, 0, 0, 0.77); !important
+}
+
+
+li[role="gridcell"] button[data-animated="true"] .lockedEmoji_d982c2:hover {
+	box-shadow: 0 0 20px rgba(255, 107, 107, 0.8); !important
+}
+
 `;
 document.head.appendChild(style);
+
+
+// ======================= Guardar configuración =========================
+chrome.storage.onChanged.addListener(function(changes, area) {
+    if(area === "local") {
+        if(changes.BypassAntilink) BypassAntilink = changes.BypassAntilink.newValue;
+        if(changes.BiggerEmoji) BiggerEmoji = changes.BiggerEmoji.newValue;
+        if(changes.UsePng) UsePng = changes.UsePng.newValue;
+		if (changes.animatedPreview) animatedPreview = changes.animatedPreview.newValue;
+    }
+});
 
 // ======================= Variables =========================
 var BiggerEmoji = false;
 var UsePng = false;
 var BypassAntilink = false;
+var animatedPreview = true;
 var savedEmojis = [];
 
 // ======================= Cambiar panel de nitro =============
@@ -147,6 +168,24 @@ setInterval(() => {
 	}
 }, 500);
 
+setInterval(() => {
+	const animatedElements = document.querySelectorAll('[data-animated="true"]');
+
+	animatedElements.forEach(el => {
+
+		const imgs = el.querySelectorAll('img');
+		imgs.forEach(img => {
+			if (img.src.endsWith('.webp') || img.src.includes('.webp?')) {
+				if (animatedPreview) {
+					img.src = img.src.replace('.webp', '.gif');
+				} else {
+					img.src = img.src.replace('.gif', '.webp');
+				}
+			}
+		});
+	});
+}, 500); // 500ms = 0.5 segundos
+
 
 // ======================= Panel de emojis =========================
 const panelWrapper = document.createElement("div");
@@ -159,6 +198,8 @@ document.body.appendChild(panelWrapper);
 
 const toggleButton = document.getElementById("toggleEmojiPanel");
 const emojiSavedPanel = document.getElementById("emojiSavedPanel");
+// agregamos todas las clases
+emojiSavedPanel.classList.add("scroller_affa7e", "list_c656ac", "thin_d125d2", "scrollerBase_d125d2");
 
 toggleButton.addEventListener("click", () => {
 	if (emojiSavedPanel.style.display === "none") {
@@ -219,6 +260,8 @@ function saveEmoji(url) {
 	}
 }
 
+
+
 // ======================= Copiado y banners =========================
 async function copyTextToClipboard(textToCopy) {
 	try {
@@ -269,16 +312,6 @@ copyNotice.style.cssText = `
 	pointer-events: none;
 `;
 document.body.appendChild(copyNotice);
-
-// ======================= Guardar configuración =========================
-chrome.storage.onChanged.addListener(function(changes, area) {
-    if(area === "local") {
-        if(changes.BypassAntilink) BypassAntilink = changes.BypassAntilink.newValue;
-        if(changes.BiggerEmoji) BiggerEmoji = changes.BiggerEmoji.newValue;
-        if(changes.UsePng) UsePng = changes.UsePng.newValue;
-    }
-});
-
 
 // ======================= Inicializar emojis guardados =========================
 loadSavedEmojis();
@@ -384,3 +417,6 @@ $(document).ready(function () {
 		});
 	}, 1000);
 });
+
+
+// GRABACION
